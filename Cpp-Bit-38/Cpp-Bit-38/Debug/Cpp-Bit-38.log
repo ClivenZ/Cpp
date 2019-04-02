@@ -1,3 +1,2 @@
-﻿  test.cpp
-s:\cpp\cpp\cpp-bit-38\cpp-bit-38\test.cpp(7): warning C4172: 返回局部变量或临时变量的地址: c
-  Cpp-Bit-38.vcxproj -> S:\CPP\Cpp\Cpp-Bit-38\Debug\Cpp-Bit-38.exe
+﻿  类的6个默认成员函数.cpp
+  Cpp-Bit-38.vcxproj -> S:\CPP\Cpp_Protection\Cpp-Bit-38\Debug\Cpp-Bit-38.exe

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="类的6个默认成员函数.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
