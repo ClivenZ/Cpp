@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="类的6个默认成员函数.cpp">
+    <ClCompile Include="内存管理.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="友元.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
