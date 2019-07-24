@@ -119,6 +119,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 #include <windows.h>
 #include <tchar.h>
 #include <UIlib.h>
+
 using namespace DuiLib;
 
 #ifdef _DEBUG
@@ -139,23 +140,57 @@ class CDuiFrameWnd : public CWindowWnd, public INotifyUI
 {
 public:
 	virtual LPCTSTR GetWindowClassName() const { return _T("DUIMainFrame"); }
-	virtual void    Notify(TNotifyUI& msg) {}
-
+	virtual void    Notify(TNotifyUI& msg) {
+		if (msg.sType == _T("click")) {
+			if (msg.pSender->GetName() == _T("btnHello")) {
+				::MessageBox(NULL,_T("按钮"),_T("点击了按钮"),NULL);
+			}
+		}
+	}
 	virtual LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		LRESULT lRes = 0;
 
 		if (uMsg == WM_CREATE)
 		{
-			CControlUI* pWnd = new CButtonUI;
-			pWnd->SetText(_T("Hello World"));   // 设置文字
-			pWnd->SetBkColor(0xFF00FF00);       // 设置背景色
+			//CControlUI* pWnd = new CButtonUI;
+			////设置控件的名称，这名称用于标识每一个控件，必须唯一，相当于MFC里面的控件ID
+			//pWnd->SetName(_T("bntHello"));
+			//// 设置文字
+			//pWnd->SetText(_T("Hello World"));
+			//// 设置背景色
+			//pWnd->SetBkColor(0xFF00FF00);       
 
+			//m_PaintManager.Init(m_hWnd);
+			//m_PaintManager.AttachDialog(pWnd);
+			////添加控件等消息响应，这样消息就会传达到dublib的消息循环，在Notify里面做消息处理
+			//m_PaintManager.AddNotifier(this);
+			//return lRes;
 			m_PaintManager.Init(m_hWnd);
-			m_PaintManager.AttachDialog(pWnd);
+
+			CDialogBuilder builder;
+			// duilib.xml需要放到exe目录下
+			//CControlUI* pRoot = builder.Create(_T("duilib.xml"), (UINT)0, NULL, &m_PaintManager);   
+			CControlUI* pRoot = builder.Create(_T("UISkin1.xml"), (UINT)0, NULL, &m_PaintManager);
+			ASSERT(pRoot && "Failed to parse XML");
+
+			m_PaintManager.AttachDialog(pRoot);
+			// 添加控件等消息响应，这样消息就会传达到duilib的消息循环，我们可以在Notify函数里做消息处理
+			m_PaintManager.AddNotifier(this);   
 			return lRes;
 		}
-
+		// 以下3个消息WM_NCACTIVATE、WM_NCCALCSIZE、WM_NCPAINT用于屏蔽系统标题栏
+		else if (uMsg == WM_NCACTIVATE) {
+			if (!::IsIconic(m_hWnd)) {
+				return (wParam == 0) ? TRUE : FALSE;
+			}
+		}
+		else if (uMsg == WM_NCCALCSIZE) {
+			return 0;
+		}
+		else if (uMsg == WM_NCPAINT) {
+			return 0;
+		}
 		if (m_PaintManager.MessageHandler(uMsg, wParam, lParam, lRes))
 		{
 			return lRes;
@@ -168,13 +203,26 @@ protected:
 	CPaintManagerUI m_PaintManager;
 };
 
+#if 0
+class CDuiFrameWnd : public WindowImplBase
+{
+public:
+	virtual LPCTSTR    GetWindowClassName() const { return _T("DUIMainFrame"); }
+	//virtual CDuiString GetSkinFile() { return _T("duilib.xml"); }
+	virtual CDuiString GetSkinFile() { return _T("UISkin1.xml"); }
+	virtual CDuiString GetSkinFolder() { return _T(""); }
+};
+#endif
+
 int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	CPaintManagerUI::SetInstance(hInstance);
+	// 设置资源的默认路径（此处设置为和exe在同一目录）
+	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());   
 
 	CDuiFrameWnd duiFrame;
 	duiFrame.Create(NULL, _T("DUIWnd"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
+	duiFrame.CenterWindow();
 	duiFrame.ShowModal();
 	return 0;
 }
-

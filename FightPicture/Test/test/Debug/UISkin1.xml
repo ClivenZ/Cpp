@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="756,544">
+    <VerticalLayout width="663" height="600" bkimage="E:\文件\图片\timg.jpg">
+        <HorizontalLayout width="756" height="30">
+            <VerticalLayout width="656" height="30" />
+            <VerticalLayout width="100" height="30">
+                <Button name="mintun" tooltip="最小化" float="true" pos="8,3,0,0" width="27" height="23" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="skin\minimize.png" hotimage="skin\minimize_h.png" pushedimage="skin\minimize_p.png" />
+                <Button name="maxbtn" tooltip="最大化" float="true" pos="35,3,0,0" width="27" height="23" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="skin\maximize.png" hotimage="skin\maximize_h.png" pushedimage="skin\minimize_p.png" />
+                <Button name="closebtn" tooltip="关闭" float="true" pos="63,3,0,0" width="27" height="23" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="skin\close.png" hotimage="skin\close_h.png" pushedimage="skin\close_p.png" />
+                <Button name="restorebtn" tooltip="还原" visible="false" float="true" pos="34,3,0,0" width="27" height="23" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="skin\restore.png" hotimage="skin\restore_h.png" pushedimage="skin\restore_p.png" />
+            </VerticalLayout>
+        </HorizontalLayout>
+        <Combo float="true" pos="38,47,0,0" width="112" height="29" itemtextcolor="#FF000000" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" dropboxsize="0,150" />
+        <Edit name="Edit_file" float="true" pos="174,47,0,0" width="244" height="29" bkcolor="#FFFFFFFF" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Edit name="Edit_TimeS" float="true" pos="74,98,0,0" width="130" height="29" bkcolor="#FFFFFFFF" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Edit name="Edit_TimeE" float="true" pos="243,98,0,0" width="130" height="29" bkcolor="#FFFFFFFF" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Button name="Button_load" text="加载" float="true" pos="433,47,0,0" width="50" height="29" bkcolor="#FF0000FF" bkcolor2="#00FFFBF0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        <Button name="Button_cut" text="剪切" float="true" pos="433,98,0,0" width="50" height="29" bkcolor="#FF0000FF" bkcolor2="#00FFFBF0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        <Label text="—" float="true" pos="216,105,0,0" width="13" height="19" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+        <Text text="截取时间：" float="true" pos="12,105,0,0" width="65" height="24" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="wrap" />
+        <HorizontalLayout float="true" pos="10,147,0,0" width="468" height="390" />
+        <HorizontalLayout float="true" pos="490,37,0,0" width="263" height="104">
+            <Button text="加载SRT" float="true" pos="10,11,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="生成ASS" float="true" pos="71,11,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="烧录ASS" float="true" pos="138,11,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="生成GIF" float="true" pos="203,11,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="加 粗" float="true" pos="12,62,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="斜 体" float="true" pos="71,62,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="字 体" float="true" pos="138,62,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+            <Button text="阴 影" float="true" pos="203,62,0,0" width="50" height="29" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" />
+        </HorizontalLayout>
+        <HorizontalLayout float="true" pos="490,147,0,0" width="263" height="390" />
+    </VerticalLayout>
+</Window>
