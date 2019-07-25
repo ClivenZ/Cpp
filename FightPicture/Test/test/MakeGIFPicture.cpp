@@ -119,6 +119,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 #include <windows.h>
 #include <tchar.h>
 #include <UIlib.h>
+#include <cstdlib>
 
 using namespace DuiLib;
 
@@ -136,6 +137,7 @@ using namespace DuiLib;
 #   endif
 #endif
 
+#if 0
 class CDuiFrameWnd : public CWindowWnd, public INotifyUI
 {
 public:
@@ -202,7 +204,7 @@ public:
 protected:
 	CPaintManagerUI m_PaintManager;
 };
-
+#endif
 #if 0
 class CDuiFrameWnd : public WindowImplBase
 {
@@ -211,18 +213,170 @@ public:
 	//virtual CDuiString GetSkinFile() { return _T("duilib.xml"); }
 	virtual CDuiString GetSkinFile() { return _T("UISkin1.xml"); }
 	virtual CDuiString GetSkinFolder() { return _T(""); }
+	virtual void    Notify(TNotifyUI& msg) {
+		if (msg.sType == _T("click")) {
+			if (msg.pSender->GetName() == _T("closebtn")) {
+				::MessageBox(NULL, _T("按钮"), _T("点击了按钮"), NULL);
+			}
+		}
+	}
+	virtual void InitWindow()
+	{
+
+		CActiveXUI* pActiveXUI = static_cast<CActiveXUI*>(m_PaintManager.FindControl(_T("ActiveXDemo1")));
+
+		if (pActiveXUI)
+		{
+			IWebBrowser2* pWebBrowser = NULL;
+
+			pActiveXUI->SetDelayCreate(false);              // 相当于界面设计器里的DelayCreate属性改为FALSE，在duilib自带的FlashDemo里可以看到此属性为TRUE             
+			pActiveXUI->CreateControl(CLSID_WebBrowser);    // 相当于界面设计器里的Clsid属性里填入{8856F961-340A-11D0-A96B-00C04FD705A2}，建议用CLSID_WebBrowser，如果想看相应的值，请见<ExDisp.h>
+			pActiveXUI->GetControl(IID_IWebBrowser2, (void**)& pWebBrowser);
+
+//			if (pWebBrowser != NULL)
+//			{
+//				//pWebBrowser->Navigate(L"https://code.google.com/p/duilib/",NULL,NULL,NULL,NULL);  
+////			      pWebBrowser->Navigate(L"http://www.baidu.com/", NULL, NULL, NULL, NULL);  // 由于谷歌时不时被墙，所以换成反应快的网站
+//				pWebBrowser->Release();
+//			}
+		}
+		CDuiString str;
+		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("ListDemo1")));
+
+		// 添加List列表内容，必须先Add(pListElement)，再SetText
+		for (int i = 0; i < 100; i++)
+		{
+			CListTextElementUI* pListElement = new CListTextElementUI;
+			pListElement->SetTag(i);
+			pList->Add(pListElement);
+
+			str.Format(_T("%d"), i);
+			pListElement->SetText(0, str);
+			pListElement->SetText(1, _T("haha"));
+		}
+	}
 };
+#endif
+#if 0
+void SendCmd(const CDuiString& strCMD) {
+	CDuiString strFFmpegPath = CPaintManagerUI::GetInstancePath();
+
+	//初始化结构体
+	SHELLEXECUTEINFO strSEInfo;
+	memset(&strSEInfo,0,sizeof(SHELLEXECUTEINFO));
+	strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	strSEInfo.lpFile = _T("C:\\Windows\\Systems32\\cmd.exe");
+
+	CDuiString strFFmpegCmd;
+	strFFmpegCmd += _T("/c");
+	strFFmpegCmd += strFFmpegPath;
+	strFFmpegCmd += strCMD;
+	strSEInfo.lpParameters = strFFmpegCmd;
+	strSEInfo.nShow = SW_SHOW;
+
+	//给cmd发送命令
+	ShellExecuteEx(&strSEInfo);
+	WaitForSingleObject(strSEInfo.hProcess, INFINITE);;
+}
+#endif
+	//用cmd发命令
+void GenerateGifWithPic() {
+		//获取当前工程路径 --> ffmpeg完整路径
+		CDuiString strFFmpegPath = CPaintManagerUI::GetInstancePath() + _T("ffmpeg\\ffmpeg");
+		
+		//1. 初始化结构体
+		SHELLEXECUTEINFO strSEInfo;
+		memset(&strSEInfo, 0, sizeof(SHELLEXECUTEINFO));
+		strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		strSEInfo.lpFile = _T("C:/Windows/System32/cmd.exe");
+
+		//构造命令
+		CDuiString strPictruePath = CPaintManagerUI::GetInstancePath() + _T("ffmpeg\\Pictrue\\%d.jpg ");
+		CDuiString strOutPath = CPaintManagerUI::GetInstancePath() + _T("ffmpeg\\Pictrue\\out.gif");
+		CDuiString strCMD(_T("/c"));
+		strCMD += strFFmpegPath + _T(" -r 1 -i ") + strPictruePath + strOutPath;
+
+		strSEInfo.lpParameters = strCMD;
+		strSEInfo.nShow = SW_HIDE; //隐藏cmd'窗口
+
+		//2. 发送cmd命令
+		ShellExecuteEx(&strSEInfo);
+		WaitForSingleObject(strSEInfo.hProcess, INFINITE);
+}
+
+class CDuiFrameWnd : public WindowImplBase
+{
+public:
+	virtual LPCTSTR    GetWindowClassName() const { return _T("DUIMainFrame"); }
+	virtual CDuiString GetSkinFile() { return _T("UISkin1.xml"); }
+	virtual CDuiString GetSkinFolder() { return _T(""); }
+	
+	virtual void Notify(TNotifyUI& msg) {
+		if (msg.sType == _T("click")) {
+			if (msg.pSender->GetName() == _T("closebtn")) {
+				::MessageBox(NULL, _T("按钮"), _T("点击了按钮"), NULL);
+			}
+		}
+	}
+
+	virtual void InitWindow()
+	{
+		CDuiString str;
+		CListUI* pList = static_cast<CListUI*>(m_PaintManager.FindControl(_T("List")));
+		// 添加List列表内容，必须先Add(pListElement)，再SetText
+		for (int i = 0; i < 100; i++)
+		{
+			CListTextElementUI* pListElement = new CListTextElementUI;
+			pListElement->SetTag(i);
+			pList->Add(pListElement);
+
+			str.Format(_T("%d"), i);
+			pListElement->SetText(0, str);
+			pListElement->SetText(1, _T("haha"));
+		}
+	}
+};
+#if 0
+//向cmd发送命令，启动ffempg
+void SendCmd(const CDuiString& strCMD) {
+	CDuiFrameWnd strFFmepgPath = CPaintManagerUI::GetInstancePath();
+
+	//初始化结构体
+	SHELLEXECUTEINFO strSEInfo;
+	memset(&strSEInfo,0,sizeof(SHELLEXECUTEINFO));
+	strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+	strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+	strSEInfo.lpFile = _T("C:\\Windows\\system32\\cmd.exe");
+
+	CDuiString strFFmepgCmd;
+	strFFmepgCmd += _T("/c");
+	strFFmepgCmd += strFFmepgPath;
+	strFFmepgCmd += strCMD;
+	strSEInfo.lpParameters = strFFmepgCmd;
+	strSEInfo.nShow = SW_SHOW;
+
+	//发送
+	ShellExecuteEx(&strSEInfo);
+	WaitForSingleObject(strSEInfo.hProcess, INFINITE);
+}
 #endif
 
 int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	CPaintManagerUI::SetInstance(hInstance);
-	// 设置资源的默认路径（此处设置为和exe在同一目录）
-	CPaintManagerUI::SetResourcePath(CPaintManagerUI::GetInstancePath());   
+	HRESULT Hr = ::CoInitialize(NULL);
+	if (FAILED(Hr)) return 0;
+	// 这里必须用new，否则有ActiveX控件时，关闭窗口会产生崩溃
+	CDuiFrameWnd* pFrame = new CDuiFrameWnd;    
+	pFrame->Create(NULL, _T("DUIWnd"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
+	pFrame->CenterWindow();
+	pFrame->ShowModal();
 
-	CDuiFrameWnd duiFrame;
-	duiFrame.Create(NULL, _T("DUIWnd"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);
-	duiFrame.CenterWindow();
-	duiFrame.ShowModal();
+	delete pFrame;
+	::CoUninitialize();
 	return 0;
 }
+
+
