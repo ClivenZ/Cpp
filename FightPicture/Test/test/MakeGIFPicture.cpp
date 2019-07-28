@@ -120,7 +120,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 #include <tchar.h>
 #include <UIlib.h>
 #include <cstdlib>
+#include <iostream>
+#include <fstream>
 
+
+using namespace std;
 using namespace DuiLib;
 
 #ifdef _DEBUG
@@ -142,7 +146,7 @@ class CDuiFrameWnd : public CWindowWnd, public INotifyUI
 {
 public:
 	virtual LPCTSTR GetWindowClassName() const { return _T("DUIMainFrame"); }
-	virtual void    Notify(TNotifyUI& msg) {
+	virtual void Notify(TNotifyUI& msg) {
 		if (msg.sType == _T("click")) {
 			if (msg.pSender->GetName() == _T("btnHello")) {
 				::MessageBox(NULL,_T("按钮"),_T("点击了按钮"),NULL);
@@ -257,70 +261,48 @@ public:
 	}
 };
 #endif
-#if 0
-void SendCmd(const CDuiString& strCMD) {
-	CDuiString strFFmpegPath = CPaintManagerUI::GetInstancePath();
-
-	//初始化结构体
-	SHELLEXECUTEINFO strSEInfo;
-	memset(&strSEInfo,0,sizeof(SHELLEXECUTEINFO));
-	strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-	strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
-	strSEInfo.lpFile = _T("C:\\Windows\\Systems32\\cmd.exe");
-
-	CDuiString strFFmpegCmd;
-	strFFmpegCmd += _T("/c");
-	strFFmpegCmd += strFFmpegPath;
-	strFFmpegCmd += strCMD;
-	strSEInfo.lpParameters = strFFmpegCmd;
-	strSEInfo.nShow = SW_SHOW;
-
-	//给cmd发送命令
-	ShellExecuteEx(&strSEInfo);
-	WaitForSingleObject(strSEInfo.hProcess, INFINITE);;
-}
-#endif
-	//用cmd发命令
-void GenerateGifWithPic() {
-		//获取当前工程路径 --> ffmpeg完整路径
-		CDuiString strFFmpegPath = CPaintManagerUI::GetInstancePath() + _T("ffmpeg\\ffmpeg");
-		
-		//1. 初始化结构体
-		SHELLEXECUTEINFO strSEInfo;
-		memset(&strSEInfo, 0, sizeof(SHELLEXECUTEINFO));
-		strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-		strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
-		strSEInfo.lpFile = _T("C:/Windows/System32/cmd.exe");
-
-		//构造命令
-		CDuiString strPictruePath = CPaintManagerUI::GetInstancePath() + _T("ffmpeg\\Pictrue\\%d.jpg ");
-		CDuiString strOutPath = CPaintManagerUI::GetInstancePath() + _T("ffmpeg\\Pictrue\\out.gif");
-		CDuiString strCMD(_T("/c"));
-		strCMD += strFFmpegPath + _T(" -r 1 -i ") + strPictruePath + strOutPath;
-
-		strSEInfo.lpParameters = strCMD;
-		strSEInfo.nShow = SW_HIDE; //隐藏cmd'窗口
-
-		//2. 发送cmd命令
-		ShellExecuteEx(&strSEInfo);
-		WaitForSingleObject(strSEInfo.hProcess, INFINITE);
-}
 
 class CDuiFrameWnd : public WindowImplBase
 {
 public:
-	virtual LPCTSTR    GetWindowClassName() const { return _T("DUIMainFrame"); }
+	virtual LPCTSTR GetWindowClassName() const { return _T("DUIMainFrame"); }
 	virtual CDuiString GetSkinFile() { return _T("UISkin1.xml"); }
 	virtual CDuiString GetSkinFolder() { return _T(""); }
-	
+
 	virtual void Notify(TNotifyUI& msg) {
 		if (msg.sType == _T("click")) {
-			if (msg.pSender->GetName() == _T("closebtn")) {
-				::MessageBox(NULL, _T("按钮"), _T("点击了按钮"), NULL);
+			CDuiString strControlName = msg.pSender->GetName();
+			if (strControlName == _T("closebtn")) {
+				Close();
+			}
+			else if (strControlName == _T("mintun")) {
+				SendMessage(WM_SYSCOMMAND,SC_MINIMIZE);
+			}
+			else if (strControlName == _T("Button_load")) {
+				LoadFileAddrs();
+			}
+			else if (strControlName == _T("Button_cut")) {
+				CutView();
+			}
+			else if (strControlName == _T("jiazaiSRT")) {
+				GenerateASSFile();
+			}
+			else if (strControlName == _T("shengchengASS")) {
+				LoadASS();
+			}
+			else if (strControlName == _T("makeGIF")) {
+				CComboBoxUI* pCombBox = (CComboBoxUI*)m_PaintManager.GetInstance();
+				int i = pCombBox->GetCurSel();
+				if (pCombBox->GetCurSel() == 0) {
+					GenerateGifWithPic();
+				}
+				else {
+					GenerateGifWithView();
+				}
 			}
 		}
 	}
-
+#if 0
 	virtual void InitWindow()
 	{
 		CDuiString str;
@@ -337,37 +319,170 @@ public:
 			pListElement->SetText(1, _T("haha"));
 		}
 	}
-};
-#if 0
-//向cmd发送命令，启动ffempg
-void SendCmd(const CDuiString& strCMD) {
-	CDuiFrameWnd strFFmepgPath = CPaintManagerUI::GetInstancePath();
-
-	//初始化结构体
-	SHELLEXECUTEINFO strSEInfo;
-	memset(&strSEInfo,0,sizeof(SHELLEXECUTEINFO));
-	strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-	strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
-	strSEInfo.lpFile = _T("C:\\Windows\\system32\\cmd.exe");
-
-	CDuiString strFFmepgCmd;
-	strFFmepgCmd += _T("/c");
-	strFFmepgCmd += strFFmepgPath;
-	strFFmepgCmd += strCMD;
-	strSEInfo.lpParameters = strFFmepgCmd;
-	strSEInfo.nShow = SW_SHOW;
-
-	//发送
-	ShellExecuteEx(&strSEInfo);
-	WaitForSingleObject(strSEInfo.hProcess, INFINITE);
-}
 #endif
+#if 1
+	//向cmd发送命令，启动ffempg
+	void SendCmd(const CDuiString& strCMD) {
+		CDuiString strFFmepgPath = CPaintManagerUI::GetInstancePath();
+
+		//初始化结构体
+		SHELLEXECUTEINFO strSEInfo;
+		memset(&strSEInfo, 0, sizeof(SHELLEXECUTEINFO));
+		strSEInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		strSEInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		strSEInfo.lpFile = _T("C:\\Windows\\system32\\cmd.exe");
+		strSEInfo.lpParameters = strCMD;
+		strSEInfo.nShow = SW_HIDE;
+
+		//发送
+		ShellExecuteEx(&strSEInfo);
+		WaitForSingleObject(strSEInfo.hProcess, INFINITE);
+		MessageBox(m_hWnd,_T("Finished"),_T("GIF"),IDOK);
+	}
+#endif
+	//加载文件
+	void LoadFileAddrs() {
+		OPENFILENAME ofn;
+		TCHAR FileName[MAX_PATH];
+
+		memset(&ofn,0,sizeof(OPENFILENAME));
+		memset(FileName,0,sizeof(char)*MAX_PATH);
+
+		ofn.lStructSize = sizeof(OPENFILENAME);
+		ofn.lpstrFilter = _T("\0*.jpg");
+		ofn.lpstrFile = FileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.Flags = OFN_FILEMUSTEXIST;
+
+		if (GetOpenFileName(&ofn)) {
+			MessageBox(NULL, _T("加载文件路径"), _T("BTN"), IDOK);
+		}
+	}
+	//裁剪视频
+	void CutView() {
+		CDuiString strStartTime = m_pEditStart->GetText();
+		if (IsValidTime(strStartTime)) {
+			MessageBox(m_hWnd,_T("起始时间有误"),_T("Error!"),IDOK);
+			return;
+		}
+		CDuiString strFinishTime = m_pEditFinish->GetText();
+		if (IsValidTime(strFinishTime)) {
+			MessageBox(m_hWnd, _T("结束时间有误"), _T("Error!"), IDOK);
+			return;
+		}
+		MessageBox(NULL,_T("截取视频"),_T("BTN"),IDOK);
+
+
+		//构造命令
+		CDuiString StrCMD(_T("/c"));
+		StrCMD += CPaintManagerUI::GetInstancePath();
+		StrCMD += (_T("ffmpeg\\ffmpeg -ss"));
+		StrCMD += strStartTime;
+		StrCMD += (_T("-to"));
+		StrCMD += strFinishTime;
+		StrCMD += (_T("-i"));
+
+		StrCMD += CPaintManagerUI::GetInstancePath();
+		StrCMD += (_T("-vcodec copy -acodec copy output.avi"));
+		SendCmd(StrCMD);
+	}
+	bool IsValidTime(const CDuiString& strTime) {
+		if (strTime.GetLength() != 8)  return false;
+		for (int i = 0; i < 8;++i) {
+			if (':' == strTime[i]) {
+				continue;
+			}
+			else if(isdigit(strTime[i])){
+				continue;
+			}
+			else {
+				return false;
+			}
+		}
+		return true;
+	}
+	void GenerateGifWithView() {
+		CDuiString strPath = CPaintManagerUI::GetInstancePath();
+		CDuiString strCMD;
+
+		//ffmpeg -r 1 -i 1.flv 1.gif
+		strCMD += _T("/c");
+		strCMD += strPath;
+		strCMD += (_T("ffmpeg\\ffmpeg -r 50 -i"));
+		strCMD += strPath;
+		strCMD += (_T("ffmpeg\\output.avi .\\..\\debug\\ffmpeg\\outputview.gif"));
+
+		SendCmd(strCMD);
+	}
+	void GenerateGifWithPic() {
+		CDuiString strPath = CPaintManagerUI::GetInstancePath();
+		CDuiString strCMD;
+
+		//ffmpeg -r 1 -i .\\Pictrue\\%d.jpg 11.gif
+		strCMD += _T("/c");
+		strCMD += strPath;
+		strCMD += (_T("ffmpeg\\ffmpeg -r 3 -i"));
+		strCMD += strPath;
+		strCMD += (_T("ffmpeg\\Picture\\%d.jpg .\\..\\debug\\ffmpeg\\outputpic.gif"));
+
+		SendCmd(strCMD);
+	}
+	void GenerateASSFile() {
+
+
+	}
+	void LoadASS() {
+		CDuiString StrPath = CPaintManagerUI::GetInstancePath();
+		StrPath += _T("ffmpeg\\word.src");
+		ifstream fIn(StrPath.GetData());
+		
+		char wordInfo[256];//ASCII
+		CListUI* pListUI = (CListUI*)m_PaintManager.GetInstance();
+		while (!fIn.eof()) {
+			CListTextElementUI* pListItem = new CListTextElementUI;
+			pListUI->Add(pListItem);
+
+			//时间
+			fIn.getline(wordInfo, 256);
+			//SetText读取Unicode(宽字节)  -->转化
+			wstring strTime = ANSIToUnicode(wordInfo);
+			pListItem->SetText(0, strTime.c_str());
+
+			//文本
+			fIn.getline(wordInfo, 256);
+			wstring strContent = ANSIToUnicode(wordInfo);
+			pListItem->SetText(1, strContent.c_str());
+
+		}
+		fIn.close();
+	}
+	wstring ANSIToUnicode(const string& str)
+	{
+		int len = 0;
+		len = str.length();
+		int unicodeLen = ::MultiByteToWideChar(CP_ACP,0,str.c_str(),-1,NULL,0);
+	
+		wchar_t* pUnicode;
+		pUnicode = new wchar_t[unicodeLen + 1];
+
+		memset(pUnicode, 0, (unicodeLen + 1) * sizeof(wchar_t));
+		::MultiByteToWideChar(CP_ACP,0,str.c_str(),-1,(LPWSTR)pUnicode,unicodeLen);
+
+		wstring rt(pUnicode);
+		delete pUnicode;
+		return rt;
+	}
+protected:
+	CEditUI* m_pEditStart;
+	CEditUI* m_pEditFinish;
+};
 
 int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
 	CPaintManagerUI::SetInstance(hInstance);
 	HRESULT Hr = ::CoInitialize(NULL);
 	if (FAILED(Hr)) return 0;
+
 	// 这里必须用new，否则有ActiveX控件时，关闭窗口会产生崩溃
 	CDuiFrameWnd* pFrame = new CDuiFrameWnd;    
 	pFrame->Create(NULL, _T("DUIWnd"), UI_WNDSTYLE_FRAME, WS_EX_WINDOWEDGE);

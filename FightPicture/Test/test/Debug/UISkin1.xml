@@ -24,8 +24,8 @@
         <HorizontalLayout float="true" pos="10,147,0,0" width="468" height="390">
             <List name="List" float="true" pos="6,5,0,0" width="455" height="380" bkcolor="#FFFFFFFF" itemtextcolor="#FF000000" itembkcolor="#FFE2DDDF" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" headerbkimage="List/list_header_bg.png" vscrollbar="true" hscrollbar="true">
                 <ListHeader name="domain" bkimage="List/list_header_bg.png">
-                    <ListHeaderItem text="序号" width="60" height="23" minwidth="16"  sepwidth="1" align="center" hotimage="skin/list_header_hot.png" pushedimage="skin/list_header_pushed.png" sepimage="skin/list_header_sep.png" />
-                    <ListHeaderItem text="文件名称" width="455" height="23" minwidth="16"  sepwidth="1" align="center" hotimage="skin/list_header_hot.png" pushedimage="skin/list_header_pushed.png" sepimage="skin/list_header_sep.png" />
+                    <ListHeaderItem text="时间" width="100" height="23" minwidth="16"  sepwidth="1" align="center" hotimage="skin/list_header_hot.png" pushedimage="skin/list_header_pushed.png" sepimage="skin/list_header_sep.png" />
+                    <ListHeaderItem text="文件名称" width="450" height="23" minwidth="16"  sepwidth="1" align="center" hotimage="skin/list_header_hot.png" pushedimage="skin/list_header_pushed.png" sepimage="skin/list_header_sep.png" />
                 </ListHeader>
             </List>
         </HorizontalLayout>
