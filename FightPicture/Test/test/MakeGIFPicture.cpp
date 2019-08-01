@@ -84,38 +84,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 }
 #endif
 
-
-#if 0
-#include<windows.h>
-#include<tchar.h>
-#include"DuiLib/UIlib.h"
-
-using namespace DuiLib;
-
-
-#ifdef _DEBUG
-#	ifdef _UNICODE
-#		pragma comment(lib,"DuiLib_ud.lib")
-#	else
-#		pragma comment(lib,"DuiLib_d.lib")
-#	endif
-#else
-#	ifdef _UNICODE
-#		pragma comment(lib,"DuiLib_u.ilb")
-#	else
-#		pragma comment(lib,"DuiLib.lib")
-#	endif
-#endif
-
-int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int
-	nCmdShow)
-{
-
-	return 0;
-}
-
-#endif
-
 #include <windows.h>
 #include <tchar.h>
 #include <UIlib.h>
@@ -270,8 +238,8 @@ public:
 	virtual CDuiString GetSkinFolder() { return _T(""); }
 
 	virtual void Notify(TNotifyUI& msg) {
+		CDuiString strControlName = msg.pSender->GetName();
 		if (msg.sType == _T("click")) {
-			CDuiString strControlName = msg.pSender->GetName();
 			if (strControlName == _T("closebtn")) {
 				Close();
 			}
@@ -300,6 +268,23 @@ public:
 					GenerateGifWithView();
 				}
 			}
+			else if (strControlName == _T("")) {
+				MoveWordList();
+			}
+		}
+		else if (msg.sType == _T("windowsinit")) {
+
+		}
+		else if (msg.sType == _T("iteamselect")) {
+			if (strControlName == _T("")) {
+				//将List中选中的文本添加到RichEdit
+				CListUI* pList = (CListUI*)m_PaintManager.FindControl(_T(""));
+				pList->GetItemAt(pList->GetCurSel);
+				CListTextElementUI* pItem = (CListTextElementUI*)pList->GetText();
+				CDuiString strWord = pItem->GetText(1);
+
+				m_pRichRditUI->SetText(strWord);
+			}
 		}
 	}
 #if 0
@@ -320,6 +305,11 @@ public:
 		}
 	}
 #endif
+	void MoveWordList() {
+	
+		CListTextElementUI* pItem =(CListTextElementUI*) m_PListUI->GetItemAt();
+		pItem->SetText(1,m_pRichRditUI->GetText());
+	}
 #if 1
 	//向cmd发送命令，启动ffempg
 	void SendCmd(const CDuiString& strCMD) {
@@ -350,7 +340,7 @@ public:
 
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		ofn.lpstrFilter = _T("\0*.jpg");
-		ofn.lpstrFile = FileName;
+		ofn.lpstrFile = FileName;	
 		ofn.nMaxFile = MAX_PATH;
 		ofn.Flags = OFN_FILEMUSTEXIST;
 
@@ -372,7 +362,6 @@ public:
 		}
 		MessageBox(NULL,_T("截取视频"),_T("BTN"),IDOK);
 
-
 		//构造命令
 		CDuiString StrCMD(_T("/c"));
 		StrCMD += CPaintManagerUI::GetInstancePath();
@@ -383,7 +372,7 @@ public:
 		StrCMD += (_T("-i"));
 
 		StrCMD += CPaintManagerUI::GetInstancePath();
-		StrCMD += (_T("-vcodec copy -acodec copy output.avi"));
+		StrCMD += (_T("-vcodec copy -acodec copy output.avi -y"));
 		SendCmd(StrCMD);
 	}
 	bool IsValidTime(const CDuiString& strTime) {
@@ -428,31 +417,85 @@ public:
 		SendCmd(strCMD);
 	}
 	void GenerateASSFile() {
+		//{Script info}		
+		FILE* pf = fopen(".\\..\\debug\\ffmpeg\\TimeWord.ass","w,css=UTF-8");
+		
+		CDuiString strScriptInfo;
+		strScriptInfo += _T("[Script info]\n");
+		strScriptInfo += _T("Title:\n"); 
+		strScriptInfo += _T("Original Script:\n");
+		strScriptInfo += _T("Original Translation:\n");
+		strScriptInfo += _T("Original Editing\n");
+		strScriptInfo += _T("Original Timing\n");
+		strScriptInfo += _T("Synch Point:\n");
+		strScriptInfo += _T("Script Updata:\n");
+		strScriptInfo += _T("Script info:\n");
+		strScriptInfo += _T("Script info:\n");
+		strScriptInfo += _T("Script info:\n");
+		strScriptInfo += _T("Script info:\n");
+		strScriptInfo += _T("Script info:\n");
+		strScriptInfo += _T("Script info:\n");
 
+		fwrite(strScriptInfo.GetData(),sizeof(WCHAR),strScriptInfo.GetLength(),);
 
+		CDuiString strV4Style;
+		strV4Style += _T("[V4+ Styles]\n");
+		strV4Style += _T("");
+		strV4Style += _T("");
+		strV4Style += _T("\n");
+
+		CDuiString strEvent;
+		strEvent += _T("[Events]:\n");
+		strEvent += _T("");
+		
+		size_t wordCount = m_PListUI->GetCount();
+		for (size_t i = 0; i < wordCount;++i) {
+			CListTextElementUI* pItem = (CListTextElementUI*)m_PListUI->GetItemAt(i);
+			
+			CDuiString strRowWord (_T("Dialogue: 0,"));
+			CDuiString strTime = pItem->GetText(0);
+			CDuiString strStartTime(strTime.GetData(),strTime.Find(' '));
+			CDuiString strFinishTime(strTime.GetData() + strStartTime.GetData() + 5);
+
+			strRowWord += strStartTime;
+			strRowWord += _T(",");
+			strRowWord += strFinishTime;
+			strRowWord += _T(",");
+			strRowWord += _T("Default,NTP,0,0,0,,");
+			
+			CDuiString strWord = pItem->GetText(1);
+			strRowWord += strWord;
+			strRowWord += _T("\n");
+		}
 	}
 	void LoadASS() {
 		CDuiString StrPath = CPaintManagerUI::GetInstancePath();
 		StrPath += _T("ffmpeg\\word.src");
 		ifstream fIn(StrPath.GetData());
-		
-		char wordInfo[256];//ASCII
 		CListUI* pListUI = (CListUI*)m_PaintManager.GetInstance();
+		//清空上次的加载
+		pListUI->RemoveAll();
+		char wordInfo[256];//ASCII
 		while (!fIn.eof()) {
 			CListTextElementUI* pListItem = new CListTextElementUI;
-			pListUI->Add(pListItem);
-
+			
 			//时间
 			fIn.getline(wordInfo, 256);
 			//SetText读取Unicode(宽字节)  -->转化
 			wstring strTime = ANSIToUnicode(wordInfo);
+			if (strTime.empty()) {
+				continue;
+			}
+			pListUI->Add(pListItem);
+			//, -> .
+			strTime[strTime.find(',')] = '.';
+			strTime[strTime.find(',')] = '.';
 			pListItem->SetText(0, strTime.c_str());
-
+			
 			//文本
 			fIn.getline(wordInfo, 256);
 			wstring strContent = ANSIToUnicode(wordInfo);
 			pListItem->SetText(1, strContent.c_str());
-
 		}
 		fIn.close();
 	}
@@ -472,9 +515,12 @@ public:
 		delete pUnicode;
 		return rt;
 	}
-protected:
+private:
 	CEditUI* m_pEditStart;
 	CEditUI* m_pEditFinish;
+	CRichEditUI* m_pRichRditUI;
+	CListUI* m_PListUI;
+	int m_iSelect;
 };
 
 int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
@@ -493,5 +539,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	::CoUninitialize();
 	return 0;
 }
+
 
 
