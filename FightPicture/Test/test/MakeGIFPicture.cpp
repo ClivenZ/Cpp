@@ -273,10 +273,16 @@ public:
 			}
 		}
 		else if (msg.sType == _T("windowsinit")) {
+			m_pEditStart = (CEditUI*)m_PaintManager.FindControl(_T("EDIT_START_TIME"));
+			m_pEditStart->SetMaxChar(8);
+			m_pEditFinish = (CEditUI*)m_PaintManager.FindControl(_T("EDIT_FINISH_TIME"));
+			m_pEditFinish->SetMaxChar(8);
 
+			m_pRichRditUI = (CRichEditUI*)m_PaintManager.FindControl(_T("RICH_EDIT_WORD"));
+			m_PListUI = (CListUI*)m_PaintManager.FindControl(_T("LIST_TMIE_WORD"));
 		}
 		else if (msg.sType == _T("iteamselect")) {
-			if (strControlName == _T("")) {
+			if (strControlName == _T("LIST_TMIE_WORD")) {
 				//将List中选中的文本添加到RichEdit
 				CListUI* pList = (CListUI*)m_PaintManager.FindControl(_T(""));
 				pList->GetItemAt(pList->GetCurSel);
