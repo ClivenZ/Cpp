@@ -64,6 +64,7 @@ int Sub(short a,short b) {
 }
 #endif
 
+#if 0
 //引用
 void TestFun2() {
 	int a = 10;
@@ -102,3 +103,37 @@ int main() {
 	system("pause");
 	return 0;
 }
+#endif
+#if 0
+//auto
+int Test() {
+	return 10;
+}
+
+int main() {
+	
+	int a = 10;
+	auto b = a;
+	auto c = 'a';
+	auto d = Test();
+	
+	cout << typeid(b).name() << endl;
+	cout << typeid(c).name() << endl;
+	cout << typeid(d).name() << endl;
+	system("pause");
+	return 0;
+}
+#endif
+
+int main() {
+	//遍历一个数组
+	int array[] = {1,2,3,4,5,6,7,8,9};
+	for (auto e : array)
+		cout << e << "";
+	cout << endl;
+	system("pause");
+	return 0;
+}
+
+
+

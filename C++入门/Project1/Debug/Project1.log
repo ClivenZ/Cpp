@@ -1,3 +1,2 @@
 ﻿  test.cpp
-S:\CPP\Cpp\C++入门\Project1\test.cpp(96): warning C4172: 返回局部变量或临时变量的地址: c
   Project1.vcxproj -> S:\CPP\Cpp\C++入门\Project1\Debug\Project1.exe
