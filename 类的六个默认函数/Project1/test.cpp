@@ -126,3 +126,59 @@ int main() {
 	return 0;
 }
 #endif
+
+#include<iostream>
+using namespace std;
+
+class Date {
+public:
+	/*
+	Date(int year,int mouth,int day){
+		_year = year;
+		_mouth = mouth;
+		_day = day;
+	}
+	*/
+	//构造函数，初始化列表
+	Date(int year, int mouth, int day)
+		:_year(year)
+		, _mouth(mouth)
+		, _day(day)
+	{
+		cout << "Date()" << endl;
+	}
+	//拷贝构造函数
+	Date(const Date& d) {
+		_year = d._year;
+		_mouth = d._mouth;
+		_day = d._day;
+	}
+	//赋值运算符重载
+	bool operator=(const Date& d) {
+		if (this != &d) {
+			_year = d._year;
+			_mouth = d._mouth;
+			_day = d._day;
+		}
+	}
+	//运算符重载
+	bool operator==(const Date& d) {
+
+	}
+	//const成员函数
+	void DisPlay() const {
+
+	}
+	//const取地址操作符重载
+	const Date* operator&()const {
+		return this;
+	}
+	//析构函数
+	~Date() {
+		cout << "~Date()" << endl;
+	}
+private:
+	int _year;
+	int _mouth;
+	int _day;
+};
