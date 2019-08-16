@@ -76,17 +76,13 @@ void ReserveTest() {
 	cout << v.size() << endl;
 }
 
-void ZSCGTest() {
-
-}
-
 
 
 /*OJ
 给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。
 找出那个只出现了一次的元素。
 */
-
+#if 0
 class Solution {
 public:
 	int singleNumber(vector<int>& nums) {
@@ -102,6 +98,56 @@ public:
 		return nums[0];
 	}
 };
+#endif
+//iterator nused
+#include<algorithm>
+
+void NusedTest1() {
+	int a[] = { 1,2,3,4 };
+	vector<int> v(a, a + sizeof(a) / sizeof(int));
+	//用find查找3所在位置的iterator
+	vector<int>::iterator pos = find(v.begin(), v.end(),3);
+	//删除pos位置的数
+	v.erase(pos);
+	
+	cout << *pos << endl;
+	
+	pos = find(v.begin(), v.end(), 3);
+	v.insert(pos,30);
+	cout << *pos << endl;
+}
+//常见的iterator失效情况
+void UnTest() {
+	int a[] = { 1,2,3,4 };
+	vector<int> v(a, a + sizeof(a) / sizeof(int));
+	vector<int>::iterator it = v.begin();
+
+	//崩溃
+	while (it != v.end()) {
+		if (*it % 2 == 0)
+			v.erase(it);
+		++it;
+	}
+	//改进
+	while (it != v.end()) {
+		if (*it % 2 == 0)
+			v.erase(it);
+		else
+			++it;
+	}
+}
+#include"MyVector.hpp"
+using namespace My;
+void TestMyVector() {
+	//构造函数
+	Vector<int> first;
+	Vector<int> second(4, 100);
+	//拷贝构造
+	Vector<int> third(second.Begin(), second.End());
+	Vector<int> fourth(third);
+
+
+}
 
 
 int main() {
@@ -113,14 +159,15 @@ int main() {
 	ConstTest(v);*/
 	//SizeTest();
 	//ReserveTest();
-	vector<int> v;
+	/*vector<int> v;
 	v.push_back(1);
 	v.push_back(3);
 	v.push_back(1);
 	v.push_back(-1);
-	v.push_back(3);
-	cout << singleNumber(v) << endl;
+	v.push_back(3);*/
 
-
+	//NusedTest1();
+	//UnTest();
+	TestMyVector();
 	return 0;
 }
