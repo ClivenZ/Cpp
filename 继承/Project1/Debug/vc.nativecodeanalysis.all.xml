@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?><DEFECTS><DEFECT>
+    <SFA>
+      <FILEPATH>s:\cpp\cpp\继承\project1</FILEPATH>
+      <FILENAME>inheritance.h</FILENAME>
+      <LINE>248</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'D::_d' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>D::{ctor}</FUNCTION>
+    <DECORATED>??0D@@QAE@XZ</DECORATED>
+    <FUNCLINE>248</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>s:\cpp\cpp\继承\project1</FILEPATH>
+      <FILENAME>inheritance.h</FILENAME>
+      <LINE>240</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'B::_b' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>B::{ctor}</FUNCTION>
+    <DECORATED>??0B@@QAE@XZ</DECORATED>
+    <FUNCLINE>240</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT><DEFECT>
+    <SFA>
+      <FILEPATH>s:\cpp\cpp\继承\project1</FILEPATH>
+      <FILENAME>inheritance.h</FILENAME>
+      <LINE>244</LINE>
+      <COLUMN>0</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'C::_c' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>C::{ctor}</FUNCTION>
+    <DECORATED>??0C@@QAE@XZ</DECORATED>
+    <FUNCLINE>244</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT></DEFECTS>
