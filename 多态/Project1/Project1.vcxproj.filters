@@ -23,5 +23,8 @@
     <ClInclude Include="polymorphism.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PrintXuFun.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -112,7 +112,7 @@ void Test() {
 #endif
 
 
-#if 1
+#if 0
 class Base {
 public:
 	virtual void Fun1() {
@@ -142,6 +142,117 @@ void Test(){
 	Derive d;
 }
 #endif
+#if 0
+class Preson {
+public:
+	virtual void BuyTicket() {
+		cout << "È«" << endl;
+	}
+};
+class student :public Preson {
+public:
+	virtual void BuyTicket() {
+		cout << "°ë" << endl;
+	}
+};
+void Func(Preson& p) {
+	p.BuyTicket();
+}
+void Test(){
+	Preson Mike;
+	Func(Mike);
+
+	student John;
+	Func(John);
+}
+#endif
+#include"PrintXuFun.hpp"
+#if 0
+class Base {
+public:
+	virtual void Fun1() {
+		cout << "Base::Fun1" << endl;
+	}
+	virtual void Fun2() {
+		cout << "Base::Fun2" << endl;
+	}
+private:
+	int a;
+};
+class Derive :public Base {
+public:
+	virtual void Fun1() {
+		cout << "Derive::Fun1" << endl;
+	}
+	virtual void Fun3() {
+		cout << "Derive::Fun3" << endl;
+	}
+	virtual void Fun4() {
+		cout << "Derive::Fun4" << endl;
+	}
+private:
+	int b;
+};
+
+void Test() {
+	Base b;
+	Derive d;
+
+
+	VFPTR* Vtableb = (VFPTR*)(*(int*)& b);
+	PrintVTable(Vtableb);
+
+	VFPTR* Vtabled = (VFPTR*)(*(int*)& d);
+	PrintVTable(Vtabled);
+}
+#endif
+
+class Base1 {
+public:
+	virtual void Fun1() {
+		cout << "Base1::Fun1" << endl;
+	}
+	virtual void Fun2() {
+		cout << "Base1::Fun2" << endl;
+	}
+private:
+	int b1;
+};
+class Base2 {
+public:
+	virtual void Fun1() {
+		cout << "Base2::Fun1" << endl;
+	}
+	virtual void Fun2() {
+		cout << "Base2::Fun2" << endl;
+	}
+private:
+	int b2;
+};
+class Derive :public Base1, public Base2 {
+public:
+	virtual void Fun1() {
+		cout << "Derive::Fun1" << endl;
+	}
+	virtual void Fun3() {
+		cout << "Derive::Fun3" << endl;
+	}
+private:
+	int d1;
+};
+void Test() {
+	Derive d;
+
+	VFPTR* vTableb1 = (VFPTR*)(*(int*)& d);
+	PrintVTable(vTableb1);
+
+	VFPTR* vTableb2 = (VFPTR*)(*(int*)((char*)& d + sizeof(Base1)));
+	PrintVTable(vTableb2);
+
+
+}
+
+
 
 
 
