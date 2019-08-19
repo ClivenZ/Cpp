@@ -85,9 +85,10 @@ void operator delete(void* pUserData)
 /*
 free的实现
 */
-#define free(p) _free_dbg(p, _NORMAL_BLOCK)
+#define free(p) _free_dbg(p, _NORMAL_BLOCK)
+
 #endif
-#if 1 
+#if 0
 //定位 new 表达式
 class TestT {
 public:
@@ -111,3 +112,46 @@ void Test() {
 #endif
 
 
+#if 0
+//不可被继承的类
+class NonInherit {
+public:
+	static NonInherit GetInstance() {
+		return NonInherit();
+	}
+private:
+	NonInherit() 
+	{ }
+};
+class NonInherit final {
+
+};
+#endif
+
+#if 0
+//只能在堆上创建对象
+class HeapOnly {
+public:
+	static HeapOnly* CreateObject() {
+		return new HeapOnly;
+	}
+private:
+	HeapOnly()
+	{}
+	//C++98 只声明，不实现
+	HeapOnly(const HeapOnly& h);
+	//C++11 
+	HeapOnly(const HeapOnly* s) = delete;
+};
+#endif
+
+#if 1
+class StackOnly {
+public:
+	StackOnly() 
+	{}
+private:
+	void* operator new(size_t size);
+	void operator delete(void* p);
+};
+#endif
