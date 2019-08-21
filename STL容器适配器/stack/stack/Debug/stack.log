@@ -1,0 +1,4 @@
+﻿  main.cpp
+S:\CPP\Cpp\STL容器适配器\stack\stack\main.cpp(15): warning C4018: “<”: 有符号/无符号不匹配
+S:\CPP\Cpp\STL容器适配器\stack\stack\main.cpp(17): warning C4018: “<”: 有符号/无符号不匹配
+  stack.vcxproj -> S:\CPP\Cpp\STL容器适配器\stack\stack\Debug\stack.exe
