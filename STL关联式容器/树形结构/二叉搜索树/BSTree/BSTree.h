@@ -95,33 +95,70 @@ public:
 		//1、要删除的结点只有右孩子
 		//2、要删除的结点只有左孩子
 		//3、要删除的结点左右孩子都有
+		Node* pDelNode = pCur;
 		if (pCur->_pLeft == nullptr) {
-			if (pCur == _pRoot)
+			if (pCur == _pRoot) {
 				_pRoot = pCur->_pRight;
-			delete pCur;
+			}
 			else {
-				if (pCur == pParent->_pLeft)
+				if (pCur == pParent->_pLeft) {
 					pParent->_pLeft = pCur->_pRight;
-				else 
+				}
+				else {
 					pParent->_pRight = pCur->_pRight;
+				}
 			}
 		}
 		else if (pCur->_pRight == nullptr) {
-			if (pCur == _pRoot)
+			if (pCur == _pRoot) {
 				_pRoot = pCur->_pLeft;
-			delete pCur;
+			}
 			else {
-				if (pCur == pParent->_pRight)	
+				if (pCur == pParent->_pRight) {
 					pParent->_pLeft = pCur->_pLeft;
-				else
+				}
+				else {
 					pParent->_pRight = pCur->_pLeft;
+				}
 			}
 		}
 		else {
-			
+			//找到右侧最小的节点来替换,pRet一定没有左孩子！！
+			Node* pRet = pCur->_pRight;
+			pParent = pCur;
+			while (pRet->_pLeft) {
+				pParent = pRet;
+				pRet = pRet->_pLeft;
+			}
+			pCur->_data = pRet->_data;
+			//如果 pRet 是根结点直接删除
+			if (pRet == pParent->_pLeft) {
+				pParent->_pLeft = pRet->_pRight;
+			}
+			else {
+				pParent->_pRight = pRet->_pRight;
+			}
+			pDelNode = pRet;
 		}
+		delete pDelNode;
 		return true;
 	}
+	Node* FindMin(Node* pRoot) {
+		if (pRoot->_pLeft == nullptr)
+			return pRoot;
+		Node* pCur = pRoot;
+		while (pCur->_pLeft)
+			pCur = pCur->_pLeft;
+		return pCur;
+	}
+	//Node* FindMax(PNode pCur) {
+	//	if (_pRoot == nullptr)
+	//		return nullptr;
+	//	pCur = _pRoot;
+	//	while (pCur->_pRight)
+	//		pCur = pCur->_pRight;
+	//	return pCur;
+	//}
 	//前、中、后序遍历
 	void Preorder() {
 		_Postorder(_pRoot);
@@ -266,5 +303,6 @@ void Test1()
 	for (auto e : a)
 		t.Insert(e);
 
-	t.Erase(8);
+	t.Erase(5);
 }
+
