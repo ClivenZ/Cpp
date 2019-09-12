@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="4399_2019_0907.cpp" />
+    <ClCompile Include="YY_2019_0912_01.cpp" />
+    <ClCompile Include="YY_2019_0912_02.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
