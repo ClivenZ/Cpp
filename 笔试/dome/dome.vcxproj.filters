@@ -15,13 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Neteasy_leihuo_2019_0915.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Neteasy_leihuo_2019_0915_04.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="源.cpp">
+    <ClCompile Include="Zhaohang_2019_0915.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
