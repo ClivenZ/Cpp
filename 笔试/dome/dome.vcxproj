@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="YY_2019_0912_01.cpp" />
-    <ClCompile Include="YY_2019_0912_02.cpp" />
+    <ClCompile Include="Neteasy_leihuo_2019_0915.cpp" />
+    <ClCompile Include="Neteasy_leihuo_2019_0915_04.cpp" />
+    <ClCompile Include="源.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
