@@ -19,7 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Shenxinfu_2019_0918.cpp" />
+    <ClCompile Include="Tencent_2019_0920.cpp" />
+    <ClCompile Include="Tencent_2019_0920_02.cpp" />
+    <ClCompile Include="Tencent_2019_0920_04.cpp" />
+    <ClCompile Include="Tencent_2019_0920_05.cpp" />
+    <ClCompile Include="Tencent_2019_0920_3.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
