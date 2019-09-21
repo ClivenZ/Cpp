@@ -15,19 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Tencent_2019_0920.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Tencent_2019_0920_02.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Tencent_2019_0920_3.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Tencent_2019_0920_05.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Tencent_2019_0920_04.cpp">
+    <ClCompile Include="58_2019_0921_01.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
