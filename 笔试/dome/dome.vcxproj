@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Meitu_2019_0925_01.cpp" />
+    <ClCompile Include="360_2019_0926_01.cpp" />
+    <ClCompile Include="Jbite_2019_0926_01.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
