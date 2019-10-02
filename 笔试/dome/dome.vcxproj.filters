@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HaweiTest.cpp">
+    <ClCompile Include="Xindongfang_Mian_2019_0930.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
