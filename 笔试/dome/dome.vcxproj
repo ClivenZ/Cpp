@@ -19,7 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Xindongfang_Mian_2019_0930.cpp" />
+    <ClCompile Include="GeLINST_2019_1027.cpp" />
+    <ClCompile Include="Jbite_mian_2019_1012.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

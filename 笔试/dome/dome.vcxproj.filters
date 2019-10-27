@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Xindongfang_Mian_2019_0930.cpp">
+    <ClCompile Include="Jbite_mian_2019_1012.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GeLINST_2019_1027.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
