@@ -19,8 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeLINST_2019_1027.cpp" />
-    <ClCompile Include="Jbite_mian_2019_1012.cpp" />
+    <ClCompile Include="SHEIN_2019_11_11.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
