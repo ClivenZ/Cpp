@@ -1,3 +1,19 @@
-﻿  SHEIN_2019_11_11.cpp
-S:\CPP\Cpp\笔试\dome\SHEIN_2019_11_11.cpp(17): warning C4101: “sum”: 未引用的局部变量
+﻿  danei_2019_1113.cpp
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(14): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(16): warning C4244: “return”: 从“double”转换到“float”，可能丢失数据
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(33): warning C4244: “=”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(35): warning C4244: “=”: 从“_Ty”转换到“int”，可能丢失数据
+          with
+          [
+              _Ty=float
+          ]
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(42): warning C4244: “参数”: 从“int”转换到“float”，可能丢失数据
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(54): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(25): warning C4101: “j”: 未引用的局部变量
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(25): warning C4101: “temp”: 未引用的局部变量
+S:\CPP\Cpp\笔试\dome\danei_2019_1113.cpp(17): warning C4715: “oper”: 不是所有的控件路径都返回值
   dome.vcxproj -> S:\CPP\Cpp\笔试\dome\Debug\dome.exe
