@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="danei_2019_1113.cpp">
+    <ClCompile Include="Wind.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
