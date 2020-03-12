@@ -1,3 +1,4 @@
+#if 0
 #include<iostream>
 using namespace std;
 struct ListNode {
@@ -45,7 +46,7 @@ ListNode* MergeListNode(ListNode* pHead1,ListNode* pHead2) {
 		pList1 = pHead1;
 	}
 	Ret_pHead->next = Ret_Next;
-	while (pList1 != nullptr && pList1 != nullptr) {
+	while (pList1 != nullptr && pList2 != nullptr) {
 		if (pList1->value < pList2->value) {
 			Ret_Next = pList1;
 			pList1 = pList1->next;
@@ -80,3 +81,112 @@ int main() {
 	Ret_pHead = ReverseList(Ret_pHead);
 	return 0;
 }
+#endif
+#if 0
+#include<iostream>
+using namespace std;
+
+int main() {
+	int x = 2;
+	int y = 3;
+	int z = 4;
+	int Cout = x < z ? y : z;
+	cout << Cout << endl;
+	return 0;
+}
+#endif
+
+
+#if 1
+
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main() {
+	int n, x;
+	int max = 1;
+	int count = 1;
+	int ret1 = 1;
+	cin >> n >> x;
+	if (n == 0) {
+		cout << max << endl;
+		return 0;
+	}
+	vector<int> v;
+	vector<int> v1;
+	for (int i = 0; i < n; ++i) {
+		int num = 0;
+		cin >> num;
+		v.push_back(num);
+	}
+	for (int i = 0; i < n; ++i) {
+		int count = 1;
+		for (int j = (i + 1); j < n; ++j) {
+			if ( v[i]== v[j]) {
+				count++;
+			}
+		}
+		if (count > ret1) {
+			ret1 = count;
+		}
+		else {
+			count = 1;
+		}
+		if ((n - i) < ret1) {
+			i = n;
+		}
+	}
+	for (int i = 0; i < n; ++i) {
+		int num = 0;
+		num = (v[i] | x);
+		v1.push_back(num);
+	}
+	for (int i = 0; i < n; ++i) {
+		for (int j = (i + 1); j < n; ++j) {
+			if (v1[i] == v1[j]) {
+				count++;
+				i = j;
+			}
+		}
+		if (count > max) {
+			max = count;
+		}
+		else {
+			count = 1;
+		}
+		if ((n - i) < max) {
+			i = n;
+		}
+	}
+	if (ret1 < max) {
+		cout << max << endl;
+	}
+	else {
+		cout << ret1 << endl;
+	}
+	return 0;
+}
+
+#endif
+
+
+#if 0
+
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+int main() {
+	int n, k, l, r;
+	cin >> n >> k >> l >> r;
+	int count = 0;
+	vector<int> v;
+
+	cout << count << endl;
+	return 0;
+}
+
+#endif
